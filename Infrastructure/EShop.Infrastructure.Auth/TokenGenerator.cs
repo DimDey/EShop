@@ -42,9 +42,6 @@ namespace EShop.Infrastructure.Auth
         public string? GenerateJwt(ClaimsIdentity claims)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            _logger.LogError("ISSUER: " + _options.Issuer);
-            _logger.LogError("AUDIENCE: " + _options.Audience);
-            _logger.LogError("TOKENKEY: " + _options.TokenKey);
             var tokenKey = System.Text.Encoding.ASCII.GetBytes(_options.TokenKey);
             var tokenSalt = new SymmetricSecurityKey(tokenKey);
             var tokenDescriptor = new SecurityTokenDescriptor
