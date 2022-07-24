@@ -1,4 +1,6 @@
-﻿namespace EShop.Domain.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace EShop.Domain.Interfaces
 {
     public interface IRepository <TEntity> where TEntity : class
     {
@@ -8,8 +10,7 @@
         Task Delete(TEntity entity);
         Task Update(TEntity entity);
         Task<TEntity?> Get(int id);
-        // TODO: REFACTOR TO ASYNC METHOD
-        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
+        Task<TEntity?> Get(Expression<Func<TEntity, bool>> predicate);
 
     }
 }

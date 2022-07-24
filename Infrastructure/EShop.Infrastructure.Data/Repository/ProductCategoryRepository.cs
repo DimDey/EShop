@@ -1,4 +1,5 @@
-﻿using EShop.Domain.Core;
+﻿using System.Linq.Expressions;
+using EShop.Domain.Core;
 using EShop.Domain.Interfaces;
 using EShop.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -43,9 +44,9 @@ namespace EShop.Infrastructure.Data.Repository
             await _dbContext.SaveChangesAsync();
         }
         
-        public IEnumerable<ProductCategory> Get(Func<ProductCategory, bool> predicate)
+        public async Task<ProductCategory?> Get(Expression<Func<ProductCategory, bool>> predicate)
         {
-            return _dbContext.ProductCategories.Where(predicate).ToList();
+            return await _dbContext.ProductCategories.FirstOrDefaultAsync(predicate);
         }
     }
 }

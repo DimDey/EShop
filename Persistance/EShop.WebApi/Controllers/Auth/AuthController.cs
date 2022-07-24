@@ -11,18 +11,18 @@ namespace EShop.Persistance.WebApi.Controllers.Auth
     public class AuthController : Controller
     {
         private readonly IRepository<User> _users;
-        private readonly AuthHandler _handler;
+        private readonly IAuthService _auth;
         
-        public AuthController(IRepository<User> users, AuthHandler handler)
+        public AuthController(IRepository<User> users, IAuthService auth)
         {
             _users = users;
-            _handler = handler;
+            _auth = auth;
         }
         
         [HttpPost("register")]
-        public ActionResult<User> RegisterMethod(UserDto request)
+        public async Task<ActionResult<User>> Register(UserDto request)
         {
-            var entity = _handler.RegisterUser(request);
+            var entity = await _auth.Register(request);
             if (entity == null)
             {
                 return BadRequest("Error");
@@ -32,9 +32,9 @@ namespace EShop.Persistance.WebApi.Controllers.Auth
         }
 
         [HttpPost("login")]
-        public ActionResult<User> AuthMethod(UserDto request)
+        public async Task<ActionResult<User>> Authenticate(UserDto request)
         {
-            var entity = _handler.AuthenticateUser(request);
+            var entity = await _auth.Authenticate(request);
             if (entity == null)
             {
                 return BadRequest("Error auth");

@@ -24,11 +24,14 @@ namespace EShop.Api
             });
             services.AddDbContext<EShopContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.Configure<JwtOptions>(
+                Configuration.GetSection("JwtOptions"));
+            
             services.AddScoped<IRepository<Product>, ProductRepository>();
             services.AddScoped<IRepository<ProductCategory>, ProductCategoryRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IAuthHashGenerator, HMACGenerator>();
-            services.AddScoped<AuthHandler>();
+            services.AddScoped<IAuthHashGenerator, TokenGenerator>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddSwaggerGen();
 
 
